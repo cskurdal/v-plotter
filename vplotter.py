@@ -94,7 +94,7 @@ def main():
     parser.add_argument('-r', type=float, default=0.5, help='the motor gear radius (default: 0.5)')
     parser.add_argument('--setup', '-s', dest='setup', action='store_true', default=False,
                         help='find the gear radius (default: False)')
-    parser.add_argument('--xml', '-s', dest='xml', default='svg.xml', help='XML SVG')
+    parser.add_argument('--xml', '-file', dest='xml', default='svg.xml', help='XML SVG')
 
     args = parser.parse_args()
 
@@ -235,7 +235,7 @@ if isRpi:
             numSteps = int(round(numSteps))
 
             if (motor == 1 and ((numSteps > 0 and not reverseMotor1) or
-                              (numSteps < 0 and reverseMotor1))):
+                               (numSteps < 0 and reverseMotor1))):
                 #Motor 1 spinning +
                 for i in range(0, abs(numSteps)):
                     #Set next step
@@ -243,10 +243,10 @@ if isRpi:
                     if currMotor1Step == 0b0000:
                         currMotor1Step = 0b1000
 
-                    p1 = (currMotor1Step>>3)&1
-                    p2 = (currMotor1Step>>2)&1
-                    p3 = (currMotor1Step>>1)&1
-                    p4 = currMotor1Step&1
+                    p1 = (currMotor1Step >> 3) & 1
+                    p2 = (currMotor1Step >> 2) & 1
+                    p3 = (currMotor1Step >> 1) & 1
+                    p4 = currMotor1Step & 1
 
                     print('    output to motor 1+', p1, p2, p3, p4)
                     GPIO.output(motor1_A_1_pin, p1)
@@ -256,8 +256,8 @@ if isRpi:
 
                     time.sleep(delay1)
 
-            elif motor == 1 and ((numSteps > 0 and reverseMotor1) or\
-                                (numSteps < 0 and not reverseMotor1) ):
+            elif motor == 1 and ((numSteps > 0 and reverseMotor1) or
+                                 (numSteps < 0 and not reverseMotor1)):
                 #Motor 1 spinning -
                 for i in range(0, abs(numSteps)):
                     #Set next step
@@ -265,10 +265,10 @@ if isRpi:
                     if currMotor1Step == 0b0000:
                         currMotor1Step = 0b1000
 
-                    p1 = currMotor1Step&1
-                    p2 = (currMotor1Step>>1)&1
-                    p3 = (currMotor1Step>>2)&1
-                    p4 = (currMotor1Step>>3)&1
+                    p1 = currMotor1Step & 1
+                    p2 = (currMotor1Step >> 1) & 1
+                    p3 = (currMotor1Step >> 2) & 1
+                    p4 = (currMotor1Step >> 3) & 1
 
                     print('    output to motor 1-', p1, p2, p3, p4)
                     GPIO.output(motor1_A_1_pin, p1)
@@ -277,8 +277,8 @@ if isRpi:
                     GPIO.output(motor1_B_2_pin, p4)
 
                     time.sleep(delay1)
-
-			elif (motor == 2 and ((numSteps > 0 and not reverseMotor2) or (numSteps < 0 and reverseMotor2))):
+            elif motor == 2 and ((numSteps > 0 and not reverseMotor2) or
+                                 (numSteps < 0 and reverseMotor2)):
                 #Motor 2 spinning +
                 for i in range(0, abs(numSteps)):
                     #Set next step
@@ -299,7 +299,8 @@ if isRpi:
 
                     time.sleep(delay2)
 
-			elif (motor == 2 and ((numSteps > 0 and reverseMotor2) or (numSteps < 0 and not reverseMotor2))):
+            elif motor == 2 and ((numSteps > 0 and reverseMotor2) or
+                                 (numSteps < 0 and not reverseMotor2)):
                 for i in range(0, abs(numSteps)):
                     #Motor 2 spinning -
                     #Set next step
